@@ -1,0 +1,71 @@
+openapi: 3.0.3
+info:
+  title: Cotacao de moedas
+  description: API utilizada - https://docs.awesomeapi.com.br/api-de-moedas
+  version: 1.0.11
+tags:
+  - name: moedas
+    description: Cotacao de moedas
+paths:
+  /moedas/{moedas}:
+    get:
+      tags:
+        - moedas
+      summary: Cotacao de moedas BRL
+      parameters:
+        - name: moedas
+          in: path
+          description: Moeda desejada
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Successful'
+        '400':
+          description: Moeda invalida
+        '404':
+          description: Moeda nao encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+components:
+  schemas:
+    Successful:
+      type: object
+      properties:
+        moedas:
+          type: string
+          description: Moedas selecionada - USD-BRL,EUR-BRL,BTC-BRL
+        code:
+          type: string
+          description: Codigo da moeda a ser convertida
+        codein:
+          type: string
+          description: Codigo da moeda a converter
+        name:
+          type: string
+          description: Nome da moeda
+        bid:
+          type: string
+          description: Valor de compra da moeda
+        create_date:
+          type: string
+          description: data da consulta
+    NotFound:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 404
+        code:
+          type: string
+          example: Moeda nao existe
+        message:
+          type: string
+          example: Moeda "ameba" nao encontrada
